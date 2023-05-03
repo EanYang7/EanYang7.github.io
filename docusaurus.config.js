@@ -42,7 +42,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           showLastUpdateTime: true,
-          showLastUpdateAuthor: true,
+          // showLastUpdateAuthor: true,
           remarkPlugins: [math],
           rehypePlugins: [katex],
         },
