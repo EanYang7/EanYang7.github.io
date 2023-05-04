@@ -205,7 +205,7 @@ my-monorepo
 
 ### 主题、插件和预设配置
 
-分别在``themes`, `plugins`, 和`presets`字段中列出网站的[themes](https://docusaurus.io/zh-CN/docs/using-plugins#using-themes), [plugins](https://docusaurus.io/zh-CN/docs/using-plugins), 以及[presets](https://docusaurus.io/zh-CN/docs/using-plugins#using-presets)。
+分别在`themes`, `plugins`, 和`presets`字段中列出网站的[themes](https://docusaurus.io/zh-CN/docs/using-plugins#using-themes), [plugins](https://docusaurus.io/zh-CN/docs/using-plugins), 以及[presets](https://docusaurus.io/zh-CN/docs/using-plugins#using-presets)。
 
 这些通常为 npm 软件包：
 
@@ -220,7 +220,13 @@ module.exports = {
 };
 ```
 
-Docusaurus支持[**module shorthands**](https://docusaurus.io/zh-CN/docs/using-plugins#module-shorthands)不足，允许您将上述配置简化为：
+:::tip
+
+没有`themes`配置时就是默认使用预设主题`preset-classic`
+
+:::
+
+Docusaurus支持[**module shorthands**](https://docusaurus.io/zh-CN/docs/using-plugins#module-shorthands)模块简写，允许您将上述配置简化为：
 
 ```js
 module.exports = {
@@ -263,9 +269,7 @@ module.exports = {
 };
 ```
 
-
-
-To specify options for a plugin or theme that is bundled in a preset, pass the options through the `presets` field. In this example, `docs` refers to `@docusaurus/plugin-content-docs` and `theme` refers to `@docusaurus/theme-classic`.
+要为绑定在预设中的插件或主题指定选项，请通过预设字段传递选项。在这个例子中, `docs` 指的是`@docusaurus/plugin-content-docs` 并且`theme` 指的是 `@docusaurus/theme-classic`.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -286,13 +290,13 @@ module.exports = {
 };
 ```
 
-The `presets: [['classic', {...}]]` shorthand works as well.
+ `presets: [['classic', {...}]]`也支持简写。
 
-For further help configuring themes, plugins, and presets, see [Using Plugins](https://docusaurus.io/zh-CN/docs/using-plugins).
+有关配置主题、插件和预设的进一步帮助，请参阅 [使用插件](https://docusaurus.io/zh-CN/docs/using-plugins).
 
-### Custom configurations
+### 自定义配置
 
-Docusaurus guards `docusaurus.config.js` from unknown fields. To add custom fields, define them in `customFields`.
+Docusaurus保护 `docusaurus.config.js` 不受未知字段的影响。要添加自定义字段，请在`customFields`中定义它们。
 
 示例：
 
@@ -307,9 +311,9 @@ module.exports = {
 };
 ```
 
-### Accessing configuration from components
+### 从组件访问配置
 
-站点中的所有组件都可以访问配置对象。 And you may access them via React context as `siteConfig`.
+站点中的所有组件都可以访问配置对象。 可以通过React上下文`siteConfig`来访问它们。
 
 简单示例：
 
@@ -325,15 +329,21 @@ const Hello = () => {
 };
 ```
 
+:::tip
 
+如果你只想在客户端使用这些字段，你可以创建自己的JS文件，并将它们作为ES6模块导入，不需要将它们放在`docusaurus.config.js`中。
 
-提示
+也就是说：
 
-If you just want to use those fields on the client side, you could create your own JS files and import them as ES6 modules, there is no need to put them in `docusaurus.config.js`.
+如果你有一些变量、函数、类等只在浏览器中使用，而不需要在服务器端或其他地方使用，你可以把它们写在一个单独的JS文件中，并用ES6模块的语法来导入它们。这样你就不需要把它们写在docusaurus.config.js文件中，这个文件是用来配置Docusaurus网站的一些选项的。
 
-### Customizing Babel Configuration
+>ES6模块是一种JavaScript的新特性，可以让我们将JavaScript代码分割成不同的文件，每个文件就是一个模块。模块可以使用import和export语句来导入和导出其他模块中的功能1。
 
-For new Docusaurus projects, we automatically generated a `babel.config.js` in the project root.
+:::
+
+### 自定义Babel配置
+
+对于新的Docusaurus项目，我们在项目根目录中自动生成了一个`babel.config.js`。
 
 ```js title="babel.config.js"
 module.exports = {
@@ -341,9 +351,11 @@ module.exports = {
 };
 ```
 
-
-
 大多数情况下，这个配置已经够用了。 如果你想要自定义你的 Babel 配置（比如添加 Flow 支持），你可以直接编辑这个文件。 你需要重新启动 Docusaurus 开发服务器，更改才能生效。
+
+>**Babel**是一个JavaScript编译器，可以将ES6或更高版本的代码转换为ES5或更低版本的代码，以便在不支持新特性的浏览器或环境中运行。Babel也可以支持Flow，一种JavaScript的静态类型检查器。
+>
+>**Flow**可以帮助你在JavaScript代码中添加类型注释，以便在编译时检查代码中的类型错误。Flow可以和Babel一起使用，通过`@babel/preset-flow`插件来去除类型注释，生成纯净的JavaScript代码。
 
 ## 文档docs
 
@@ -1079,3 +1091,18 @@ This is <Highlight color="#1877F2">Facebook blue</Highlight> !
 ```
 
 <font color="red">字体颜色</font>
+
+## 疑问
+
+### `docusaurus.config.js`中的type注释
+
+比如
+
+```js
+/** @type {import('@docusaurus/types').Config} */ 
+/** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+```
+
+这是两个用JSDoc语法写的类型注释，表示这个对象的类型是Docusaurus配置对象。
+
+type注释允许类型检查和ide补全

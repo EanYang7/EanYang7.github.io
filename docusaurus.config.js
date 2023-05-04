@@ -8,8 +8,8 @@ const katex = require("rehype-katex");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "I'm Ean",
-  tagline: "你好啊！",
+  title: "Ean's Home",
+  tagline: "I'm Ean,你好啊！",
   favicon: "img/logo.jpg",
 
   // Set the production url of your site here
@@ -45,13 +45,15 @@ const config = {
           // showLastUpdateAuthor: true,
           remarkPlugins: [math],
           rehypePlugins: [katex],
+          // editUrl:
+          //   "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+          // editUrl:
+          //   "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -77,12 +79,12 @@ const config = {
           hideable: true,
         },
       },
-      // Replace with your project's social card
-      image: "img/docusaurus-social-card.jpg",
+      // Replace with your project's social card,在社交媒体上显示的预览图
+      image: "img/social-card.jpg",
       navbar: {
-        title: "Ean's Home",
+        title: "Ean的小屋",
         logo: {
-          alt: "My Site Logo",
+          alt: "网站头像",
           src: "img/avatar.jpg",
         },
         items: [
@@ -92,7 +94,7 @@ const config = {
             position: "right",
             label: "文档",
           },
-          { to: "/blog", label: "Blog", position: "right" },
+          { to: "/blog", label: "博客", position: "right" },
           {
             href: "https://github.com/EanYang7/EanYang7.github.io",
             label: "GitHub",
@@ -104,47 +106,52 @@ const config = {
         style: "dark",
         links: [
           {
-            title: "Docs",
+            title: "文档",
             items: [
               {
-                label: "文档",
-                to: "/docs/intro",
+                label: "Docusaurus",
+                to: "/docs/Docusaurus",
+              },
+              {
+                label: "React",
+                to: "/docs/react",
+              },
+              {
+                label: "MMDetection",
+                to: "/docs/mmdetection",
               },
             ],
           },
           {
-            title: "Community",
+            title: "项目",
             items: [
               {
-                label: "Stack Overflow",
-                href: "https://stackoverflow.com/questions/tagged/docusaurus",
+                label: "cs231n",
+                href: "https://github.com/EanYang7/cs231n",
               },
               {
-                label: "Discord",
-                href: "https://discordapp.com/invite/docusaurus",
-              },
-              {
-                label: "Twitter",
-                href: "https://twitter.com/docusaurus",
+                label: "动手学深度学习",
+                href: "https://github.com/EanYang7/d2l",
               },
             ],
           },
           {
-            title: "More",
+            title: "更多",
             items: [
               {
-                label: "Blog",
+                label: "博客",
                 to: "/blog",
               },
               {
                 label: "GitHub",
-                href: "https://github.com/facebook/docusaurus",
+                href: "https://github.com/EanYang7/EanYang7.github.io",
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} . Built with Ean.`,
       },
+      // 配置代码高亮
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
