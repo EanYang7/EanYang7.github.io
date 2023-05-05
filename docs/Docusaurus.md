@@ -359,7 +359,19 @@ module.exports = {
 
 ## 文档docs
 
-> 只支持`md`和`mdx`，不支持`js`页面
+文档功能允许用户以层级格式组织编排 Markdown 文件
+
+:::info
+
+查看[Docs Plugin API Reference](https://docusaurus.io/zh-CN/docs/next/api/plugins/@docusaurus/plugin-content-docs)文档以获取选项的详尽列表。
+
+:::
+
+:::caution 注意
+
+只支持`md`和`mdx`，不支持`js`页面
+
+:::
 
 网站的文档从低到高有四层组织架构：
 
@@ -426,15 +438,11 @@ module.exports = {
 };
 ```
 
-
-
 注意**您不一定非要放弃使用博客**或其他插件；设置 `routeBasePath: '/'` 所产生的效果就是把文档从 `https://example.com/docs/some-doc` 移到了根目录：`https://example.com/some-doc`。 如果启用了博客，还是可以通过 `blog/` 子路由访问到它。
 
-别忘了通过添加前言把某个页面放置在网站顶部 (`https://example.com/`)：
+别忘了通过添加前言Font Matter把某个页面放置在网站顶部 (`https://example.com/`)：
 
-docs/intro.md
-
-```md
+```md title='docs/intro.md'
 ---
 slug: /
 ---
@@ -442,11 +450,11 @@ slug: /
 这一页会是用户访问 https://example.com/ 时出现的主页。
 ```
 
-
-
-注意
+:::caution 注意
 
 如果你用 `slug: /` 把某篇文档变成了主页，你就需要删掉 `src/pages/index.js` 的现有首页，否则会有两个文件会映射到同一个路径！
+
+:::
 
 现在，网站的结构会长得像这样：
 
@@ -456,37 +464,65 @@ example.com/tutorial-basics/...    - 生成自 `docs/tutorial-basics/...`
 ...
 ```
 
-
-
-提示
+:::tip
 
 Docusaurus 2 中还存在 ”仅博客模式“。 你可以用类似上述的方法实现。 遵循[仅博客模式](https://docusaurus.io/zh-CN/docs/blog#blog-only-mode)上的设置说明。
 
-文档通过以下方式连接到**页面组**：
-
-+ 侧边栏
-+ 上一页/下一页导航
-+ 版本控制
+:::
 
 ### 创建Doc
 
-Create a Markdown file at `docs/hello.md`:
+创建名为 `greeting.md` 的 Markdown 文件，把它放在 `docs` 目录下。
 
-docs/hello.md
-
-```md
-# Hello
-
-This is my **first Docusaurus document**!
+```bash
+website # 你的网站的根目录
+├── docs
+│   └── greeting.md
+├── src
+│   └── pages
+├── docusaurus.config.js
+├── ...
 ```
 
-A new document is now available at http://localhost:3000/docs/hello.
 
->docs目录下所有以下划线`_`为前缀的文件都被视为“部分”页面，默认情况下会被忽略。
->
->阅读有关[导入部分页面](https://docusaurus.io/zh-CN/docs/markdown-features/react#importing-markdown)的详细信息。
 
-### front matter
+```md
+----
+description: 创建一个内容丰富的文档页面。
+---
+
+## 来自 Docusaurus 的问候
+
+你准备好为你的开源项目创建文档网站了吗？
+
+## 标题
+
+会显示在右上方的目录
+
+这样，你的用户不用通读全文就可以知晓这篇文章的主要内容。
+
+## 目录默认只包括 h2 和 h3 标题。
+
+你可以在每个文档或主题配置中设置目录包含的标题层级。
+
+标题会保持恰当的间距，让文章看起来层级清晰。
+
+- lists will help you
+- present the key points
+- that you want your users to remember
+  - and you may nest them
+    - multiple times
+```
+
+:::note
+
+在 `docs` 目录下所有带有下划线（`_`）前缀的文件都会被当作页面「片段」，并被默认忽略。
+
+你可以阅读更多关于[导入页面片段](https://docusaurus.io/zh-CN/docs/next/markdown-features/react#importing-markdown)的内容。
+
+:::
+
+### front matter文档前言
 
 [front matter](https://docusaurus.io/zh-CN/docs/markdown-features#front-matter)用于为文档页面提供额外的元数据。前言是可选的——Docusaurus 能够自行推断所有必要的元数据，无需前言。 例如，下面介绍的[doc tags](https://docusaurus.io/zh-CN/docs/create-doc#dog-tags)功能需要使用front matter。有关所有可能的字段，请参阅[API文档](https://docusaurus.io/zh-CN/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter)。
 
@@ -504,9 +540,13 @@ tags:
 ---
 ```
 
->Tags can also be declared with `tags: [Demo, Getting started]`.
->
->Read more about all the possible [Yaml array syntaxes](https://www.w3schools.io/file/yaml-arrays/).
+:::tip
+
+标签也可以用 `tags: [演示, 开始上手]` 的语法定义。
+
+你也可以阅读更多关于所有的 [Yaml 数组声明语法](https://www.w3schools.io/file/yaml-arrays/)的内容。
+
+:::
 
 #### 接受的字段
 
@@ -576,11 +616,11 @@ last_update:
 
 Markdown文件在`docs`文件夹下的排列方式可能会对Docusaurus内容的生成产生多种影响。然而，其中绝大多数可以与文件结构脱钩。
 
-#### Document ID
+#### 文档 ID
 
-每个文档都有一个唯一的id。默认情况下，文档id是相对于根文档目录的文档名称（没有扩展名）。
+每个文档均有唯一的 `id`（标识符）。 默认情况下，文档 `id` 是文件相对文档根目录的路径（不包括后缀）。
 
-例如，greeting.md的ID是`greeting`，`guide/hello.md`的ID为`guide/hello`。
+例如，`greeting.md` 的 ID 是 `greeting`，而 `guide/hello.md` 的 ID 则是 `guide/hello`。
 
 ```
 website # 你的网站的根目录
@@ -590,9 +630,9 @@ website # 你的网站的根目录
       └── hello.md
 ```
 
-然而，id的最后一部分可以由用户在前面的内容中定义。例如，如果`guide/hello.md`的内容定义如下，那么它的最终id是`guide/part1`。
+但是，用户可以在前言中指定 `id` 的**最后一部分**。 举个例子，如果 `guide/hello.md` 的内容为如下所示，其最终的 `id` 则为 `guide/part1`。
 
-```
+```md
 ---
 id: part1
 ---
@@ -602,9 +642,9 @@ Lorem ipsum
 
 当手写侧边栏，或这使用与文档相关的布局或钩子时，ID 会被用来指代某篇文档。
 
-#### Doc URLs
+#### 文档 URL
 
-默认情况下，文档的URL位置是其相对于`docs`文件夹的文件路径。使用`slug` front matter来更改文档的URL。
+文档的 URL 路径默认为它相对于 `docs` 文件夹的路径。 你可以用 `slug` 前言来更改文档的 URL。
 
 比如，假设你的网站结构长得像这样：
 
@@ -615,9 +655,7 @@ website # 你的网站的根目录
         └── hello.md
 ```
 
-
-
-By default `hello.md` will be available at `/docs/guide/hello`. You can change its URL location to `/docs/bonjour`:
+默认情况下，`hello.md` 可以在 `/docs/guide/hello` 处访问。 你也可以把它的 URL 位置修改为 `/docs/bonjour`：
 
 ```md
 ---
@@ -627,18 +665,18 @@ slug: /bonjour
 Lorem ipsum
 ```
 
+`slug` 会被添加到文档插件的 `routeBasePath` 后面。`routeBasePath` 默认是 `/docs`。 有关如何从URL中删除/Docs部分的信息，请参阅[仅文档模式](https://docusaurus.io/zh-CN/docs/next/docs-introduction#docs-only-mode)。
 
-
-`slug` will be appended to the doc plugin's `routeBasePath`, which is `/docs` by default. See [Docs-only mode](https://docusaurus.io/zh-CN/docs/docs-introduction#docs-only-mode) for how to remove the `/docs` part from the URL.
-
-备注
+:::note
 
 你可以使用：
 
-- absolute slugs: `slug: /mySlug`, `slug: /`...
-- relative slugs: `slug: mySlug`, `slug: ./../mySlug`...
+- 绝对路径：`slug: /mySlug`、`slug: /`...
+- 相对路径：`slug: mySlug`、`slug: ./../mySlug`...
 
-If you want a document to be available at the root, and have a path like `https://docusaurus.io/docs/`, you can use the slug front matter:
+:::
+
+如果你想要让一篇文档位于网站根部下，有形如 `https://docusaurus.io/docs/` 的路径，那么你可以这么填写前言中的 slug：
 
 ```md
 ---
@@ -653,52 +691,510 @@ Lorem ipsum
 
 当使用[自动生成的边栏](https://docusaurus.io/zh-CN/docs/sidebar/autogenerated)时，文件结构将决定边栏结构。
 
-我们对文件系统组织的建议是：让你的文件系统镜像侧边栏结构（这样你就不需要手工编写`sidbars.js`文件），并使用`slug` front matter来定制每个文档的URL。
+我们关于文件系统组织的建议是：让你的文件系统和侧边栏结构保持一致（这样你就不需要手写你的 `sidebars.js` 文件），并使用 `slug` 前言来自定义每个文档的 URL。
 
 ### 侧边栏
 
-[侧边栏 | Docusaurus](https://docusaurus.io/zh-CN/docs/sidebar)
+创建侧边栏可以：
+
+- 分组多篇**相关文档**
+- 在每篇文档旁**显示侧边栏**
+- 提供下一篇/上一篇按钮的**分页导航**
+
+要在你的 Docusaurus 网站上使用侧边栏，只需两步：
+
+1. 定义一个导出[一组侧边栏对象](https://docusaurus.io/zh-CN/docs/next/sidebar#sidebar-object)的文件。
+2. 直接将此对象传入 `@docusaurus/plugin-docs` 或通过 `@docusaurus/preset-classic` 传入。
+
+```js title=docusaurus.config.js
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
+        },
+      },
+    ],
+  ],
+};
+```
+
+#### 默认侧边栏
+
+如果未指定`sidebarPath`，Docusaurus会使用`docs`文件夹的文件系统结构[自动生成一个侧边栏](https://docusaurus.io/zh-CN/docs/next/sidebar/autogenerated)：
+
+```js title=sidebars.js
+module.exports = {
+  mySidebar: [
+    {
+      type: 'autogenerated',
+      dirName: '.', // 为 docs 目录（或者 versioned_docs/<version>）生成侧边栏
+    },
+  ],
+};
+```
+
+你也可以显式定义你的侧边栏。
+
+#### 侧边栏项目
+
+侧边栏简单来说就是由一些类别、文档链接、其他超链接组成的层级结构。
+
+```ts
+type Sidebar =
+  // 普通语法
+  | SidebarItem[]
+  // 简写语法
+  | {[categoryLabel: string]: SidebarItem[]};
+```
+
+举个例子：
+
+```js title=sidebars.js
+module.exports = {
+  mySidebar: [
+    {
+      type: 'category',
+      label: 'Getting Started',
+      items: [
+        {
+          type: 'doc',
+          id: 'doc1',
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Docusaurus',
+      items: [
+        {
+          type: 'doc',
+          id: 'doc2',
+        },
+        {
+          type: 'doc',
+          id: 'doc3',
+        },
+      ],
+    },
+    {
+      type: 'link',
+      label: 'Learn more',
+      href: 'https://example.com',
+    },
+  ],
+};
+```
+
+这是一个导出了一个叫做 `mySidebar` 的侧边栏的文件。 它有三个顶层项目：两个类别和一个外部链接。 每个类别内部都有几个文档链接。
+
+一个边栏文件可以包含[多个边栏对象](https://docusaurus.io/zh-CN/docs/next/sidebar/multiple-sidebars)，由它们的对象键标识。
+
+```ts
+type SidebarsFile = {
+  [sidebarID: string]: Sidebar;
+};
+```
+
+##### 项目类别
+
+- **[Doc](https://docusaurus.io/zh-CN/docs/next/sidebar/items#sidebar-item-doc)**: 文档页面的链接，并和侧边栏绑定
+- **[Link](https://docusaurus.io/zh-CN/docs/next/sidebar/items#sidebar-item-link)**：内部或外部页面链接
+- **[Category](https://docusaurus.io/zh-CN/docs/next/sidebar/items#sidebar-item-category)**：创建侧边栏项下拉菜单
+- **[Autogenerated](https://docusaurus.io/zh-CN/docs/next/sidebar/autogenerated)**: 自动生成侧边栏
+- **[HTML](https://docusaurus.io/zh-CN/docs/next/sidebar/items#sidebar-item-html)**：在这个位置渲染纯 HTML
+- **[Ref](https://docusaurus.io/zh-CN/docs/next/sidebar/multiple-sidebars#sidebar-item-ref)**: 指向文档页面的链接，而不让项目参与导航生成
+
+###### Doc - 文档链接
+
+使用 `doc` 类型链接至文档页面，并分配链接文档至侧边栏。
+
+[侧边栏项目 | Docusaurus](https://docusaurus.io/zh-CN/docs/next/sidebar/items#sidebar-item-doc)
+
+###### Link - 任意页面链接
+
+使用 `link` 类型链接到任何非文档的页面（内部或外部链接）。
+
+[侧边栏项目 | Docusaurus](https://docusaurus.io/zh-CN/docs/next/sidebar/items#sidebar-item-link)
+
+###### HTML - 渲染自定义标记
+
+[侧边栏项目 | Docusaurus](https://docusaurus.io/zh-CN/docs/next/sidebar/items#sidebar-item-html)
+
+使用 `html` 类型在项目的 `<li>` 标签中渲染自定义 HTML。
+
+适用于插入自定义项目，比如分割线、节标题、广告、图片。
+
+###### Category - 创建分类层级
+
+[侧边栏项目 | Docusaurus](https://docusaurus.io/zh-CN/docs/next/sidebar/items#sidebar-item-category)
+
+使用 category 类型创建侧边栏项的层次结构。
+
+#### 主题配置
+
+##### 可隐藏侧边栏
+
+启用 `themeConfig.docs.sidebar.hideable` 选项后，你可以使整个侧边栏变得可隐藏，让用户能够更好地关注内容。 这对于中等屏幕大小（如平板）的读者来说格外有用。
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    docs: {
+      sidebar: {
+        hideable: true,
+      },
+    },
+  },
+};
+```
+
+
+
+##### 自动折叠侧边栏类别
+
+`themeConfig.docs.sidebar.autoCollapseCategories` 选项会在扩展一个类别时折叠所有的同级类别。 这能让用户免于打开过多的菜单，帮助他们关注选定的部分。
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    docs: {
+      sidebar: {
+        autoCollapseCategories: true,
+      },
+    },
+  },
+};
+```
+
+#### 传递自定义属性
+
+要将自定义道具传递到侧边栏项目，请将可选的`customProps`对象添加到任何项目中。这对于通过快速渲染React组件呈现侧边栏项目来应用站点自定义非常有用。
+
+```js
+{
+  type: 'doc',
+  id: 'doc1',
+  customProps: {
+    badges: ['new', 'green'],
+    featured: true,
+  },
+};
+```
+
+#### 侧边栏面包屑导航
+
+面包屑导航默认会在页面顶端渲染。它用的是当前页面的「侧边栏路径」。
+
+这个行为可以用插件选项禁用：
+
+```js title=docusaurus.config.js
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          breadcrumbs: false,
+        },
+      },
+    ],
+  ],
+};
+```
+
+#### 复杂侧边栏示例
+
+来自 Docusaurus 网站的真实例子：
+
+```js title=sidebars.js
+const sidebars = {
+  docs: [
+    'introduction',
+    {
+      type: 'category',
+      label: 'Getting Started',
+      link: {
+        type: 'generated-index',
+      },
+      collapsed: false,
+      items: [
+        'installation',
+        'configuration',
+        'playground',
+        'typescript-support',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Guides',
+      link: {
+        type: 'generated-index',
+        title: 'Docusaurus Guides',
+        description:
+          "Let's learn about the most important Docusaurus concepts!",
+        keywords: ['guides'],
+        image: '/img/docusaurus.png',
+      },
+      items: [
+        'guides/creating-pages',
+        {
+          type: 'category',
+          label: 'Docs',
+          link: {
+            type: 'doc',
+            id: 'guides/docs/introduction',
+          },
+          items: [
+            'guides/docs/create-doc',
+            {
+              type: 'category',
+              label: 'Sidebar',
+              link: {
+                type: 'doc',
+                id: 'guides/docs/sidebar/index',
+              },
+              items: [
+                'guides/docs/sidebar/items',
+                'guides/docs/sidebar/autogenerated',
+                'guides/docs/sidebar/multiple-sidebars',
+              ],
+            },
+            'guides/docs/versioning',
+            'guides/docs/multi-instance',
+          ],
+        },
+        'blog',
+        {
+          type: 'category',
+          label: 'Markdown Features',
+          link: {
+            type: 'doc',
+            id: 'guides/markdown-features/introduction',
+          },
+          items: [
+            'guides/markdown-features/react',
+            'guides/markdown-features/tabs',
+            'guides/markdown-features/code-blocks',
+            'guides/markdown-features/admonitions',
+            'guides/markdown-features/toc',
+            'guides/markdown-features/assets',
+            'guides/markdown-features/links',
+            'guides/markdown-features/plugins',
+            'guides/markdown-features/math-equations',
+            'guides/markdown-features/diagrams',
+            'guides/markdown-features/head-metadata',
+          ],
+        },
+        'styling-layout',
+        'swizzling',
+        'static-assets',
+        'search',
+        'browser-support',
+        'seo',
+        'using-plugins',
+        'deployment',
+        {
+          type: 'category',
+          label: 'Internationalization',
+          link: {type: 'doc', id: 'i18n/introduction'},
+          items: [
+            {
+              type: 'doc',
+              id: 'i18n/tutorial',
+              label: 'Tutorial',
+            },
+            {
+              type: 'doc',
+              id: 'i18n/git',
+              label: 'Using Git',
+            },
+            {
+              type: 'doc',
+              id: 'i18n/crowdin',
+              label: 'Using Crowdin',
+            },
+          ],
+        },
+        'guides/whats-next',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Advanced Guides',
+      link: {type: 'doc', id: 'advanced/index'},
+      items: [
+        'advanced/architecture',
+        'advanced/plugins',
+        'advanced/routing',
+        'advanced/ssg',
+        'advanced/client',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Migrating from v1 to v2',
+      items: [
+        'migration/migration-overview',
+        'migration/migration-automated',
+        'migration/migration-manual',
+        'migration/migration-versioned-sites',
+        'migration/migration-translated-sites',
+      ],
+    },
+  ],
+  api: [
+    'cli',
+    'docusaurus-core',
+    {
+      type: 'autogenerated',
+      dirName: 'api',
+    },
+  ],
+};
+module.exports = sidebars;
+```
 
 #### 标题优先级
 
 sidebar_label(font matter)>正文标题（必须是一级标题）>id(font matter)>md文件名
 
-#### 自动生成
+#### 自动生成侧边栏
 
-Docusaurus会**自动**从docs文件夹中创建一个侧边栏。
+Docusaurus 可以根据你的**文件系统结构自动生成侧边栏**：每个文件夹会生成一个类别，每个文件会生成一个文档链接。
 
-#### 手动调整
+##### 类别索引惯例
 
-添加元数据以自定义**侧边栏标签**和**位置**：
+Docusaurus 可以自动给一个类别关联一篇索引文档。
 
-```md title="docs/hello.md"
+类别索引文档的文件名符合下列条件之一：
+
+- 名为 `index`（大小写不敏感）：`docs/Guides/index.md`
+- 名为 `README`（大小写不敏感）：`docs/Guides/README.mdx`
+- 和上一级目录的名字一致：`docs/Guides/Guides.md`
+
+:::tip
+
++ 把引言文档命名为 `README.md`，可以在 GitHub 上浏览此目录的时候显示这篇文档；用 `index.md` 则会更加接近服务器发送 HTML 文件的行为。
+
++ 如果一个文件夹只有一个索引页，它会变成一个链接，而不是一个类别。 这对于把**资源和文档并置**很有用：
+
+  ```text
+  some-doc
+  ├── index.md
+  ├── img1.png
+  └── img2.png
+  ```
+
+:::
+
+##### 自动生成侧边栏元数据
+
+对于手写的侧边栏定义，你会通过 `sidebars.js` 给每个项目提供元数据；对于自动生成的侧边栏，Docusaurus 会从项目对应的文件中读取。 除此之外，你还可能想要调整每个项目之间的相对位置，因为默认情况下，同一个侧边栏切片里的项目会根据文件和文件夹名字，按**字母表顺序**生成。
+
+:::tip
+
+自动生成后可以通过元数据调整位置
+
+:::
+
+###### 文档项目元数据
+
+`label`、`className`、`customProps` 属性在前言中声明，对应的字段分别是 `sidebar_label`、`sidebar_class_name`、`sidebar_custom_props`。 相对位置可以用一样的方法声明，也就是 `sidebar_position` 前言。
+
+```md title=docs/tutorials/tutorial-easy.md
 ---
-sidebar_label: 'Hi!'
-sidebar_position: 3
+sidebar_position: 2
+sidebar_label: 简单
+sidebar_class_name: green
 ---
 
-# Hello
+# 简单教程
 
-This is my **first Docusaurus document**!
+这里是简单教程！
 ```
 
-#### 自定义
+###### 类别元数据
 
-也可以在`sidebars.js`中显式地手动创建侧边栏：
+在类别相对应的文件夹里新建一个 `_category_.json` 或 `_category_.yml` 文件。 你可以声明类别所需要的任何元数据，以及 `position` 元数据。 如果类别有文档索引链接，`label`、`className`、`position`、`customProps` 会默认为此文档的对应元数据值。
 
-```js title="sidebars.js"
-module.exports = {
-  tutorialSidebar: [
-    'intro',
-    'hello',
-    {
-      type: 'category',
-      label: 'Tutorial',
-      items: ['tutorial-basics/create-a-document'],
-    },
-  ],
-};
+```json title=docs/tutorials/_category_.json
+{
+  "position": 2.5,
+  "label": "教程",
+  "collapsible": true,
+  "collapsed": false,
+  "className": "red",
+  "link": {
+    "type": "generated-index",
+    "title": "教程总览"
+  },
+  "customProps": {
+    "description": "这个描述可以用在 swizzle 的 DocCard 里"
+  }
+}
 ```
+
+:::tip
+
+以用小数来表示类别的位置，这样可以在不改变其他类别位置的情况下，插入一个新的类别。
+
+举个例子，如果你有三个类别，它们的 position 分别是 1, 2, 3，那么它们会按照这个顺序显示在侧边栏中。如果你想在第一个和第二个类别之间插入一个新的类别，你可以给它一个 position 为 1.5，这样就不用修改其他类别的 position 了。
+
+:::
+
+##### 使用数字前缀
+
+有一种简单的给自动生成侧边栏排序的方法，就是给每个文档和文件夹添加一个数字前缀。这会让它们在文件系统按文件名排序时也是有序的：
+
+```bash
+docs
+├── 01-Intro.md
+├── 02-Tutorial Easy
+│   ├── 01-First Part.md
+│   ├── 02-Second Part.md
+│   └── 03-End.md
+├── 03-Tutorial Advanced
+│   ├── 01-First Part.md
+│   ├── 02-Second Part.md
+│   ├── 03-Third Part.md
+│   └── 04-End.md
+└── 04-End.md
+```
+
+为了**更方便使用此功能**，Docusaurus 支持**多种数字前缀模式**。
+
+默认情况下，Docusaurus 会从文档 ID、标签及 URL 路径中**移除数字前缀**。
+
+
+
+#### 卡片列表
+
+![image-20230505141044198](./../static/img/Docusaurus.assets/image-20230505141044198.png) 
+
+一半放在类别目录下的索引页面`index.md`中
+
+```markdown
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />
+```
+
+也可以指定一个类别的 **id**。
+
+```markdown
+mport DocCardList from '@theme/DocCardList';
+
+<DocCardList category="tutorial" />
+```
+
+:::tip
+
+简介由各子文档的前言字段`description`决定（没有就是正文第一段）
+
+:::
 
 ### plugin-content-docs
 
@@ -841,19 +1337,68 @@ module.exports = {
 
 > 不会像docs下的文件一样自动创建侧边栏
 
-将**Markdown**或**React**文件添加到`src/pages`以创建独立页面：
+### plugin-content-pages
+
+`@docusaurus/plugin-content-pages` 插件允许你创建**独立页面**，比如案例展示页面、实时演示页面，或是支持页面。 你可以使用 React 组件，或是 Markdown。
+
+查看[Pages Plugin API Reference](https://docusaurus.io/zh-CN/docs/next/api/plugins/@docusaurus/plugin-content-pages)文档以获取选项的详尽列表。
+
+### 路由
+
+在 `/src/pages/` 目录下所创建的任何 JavaScript 和Markdown文件都会自动转换为网页，网站结构与 `/src/pages/` 的目录结构一致。 举个例子：
 
 - `src/pages/index.js` → `localhost:3000/`
 - `src/pages/foo.md` → `localhost:3000/foo`
 - `src/pages/foo/bar.js` → `localhost:3000/foo/bar`
 
+在这个基于组件的开发时代，我们鼓励你把样式、标记、行为都放在一个组件中。 每个页面都是组件。如果你需要使用样式自定义页面设计，我们推荐你把样式和页面组件共同放在独立的目录下。 举个例子，如果你要创建「support」页面，你可以在下面两种方式中选择一种：
+
+- 新建一个 `/src/pages/support.js` 文件
+- 新建 `/src/pages/support/` 目录及 `/src/pages/support/index.js` 文件
+
+我们推荐**后者**，这样你可以把和页面相关的文件都放在这个文件夹里。 比如说仅用于「support」页面的 CSS 模块文件 (`styles.module.css`)。
+
+:::tip
+
++ 这只是推荐的项目结构。你仍需要在组件模块 (`support/index.js`) 里手动导入 CSS 模块文件。
+
+:::
+
+默认情况下，以 `_` 开头的任何 Markdown 或 Javascript 文件都会被忽略，也不会为其生成任何路由（参见 `exclude` 选项）。
+
+```bash
+my-website
+├── src
+│   └── pages
+│       ├── styles.module.css
+│       ├── index.js
+│       ├── _ignored.js
+│       ├── _ignored-folder
+│       │   ├── Component1.js
+│       │   └── Component2.js
+│       └── support
+│           ├── index.js
+│           └── styles.module.css
+.
+```
+
+
+
+:::tip 注意
+
+Docusaurus 会自动为 `src/pages/` 内的所有 JavaScript/TypeScript 文件生成相应的网站路径。 如果你想要在这个文件夹中创建可复用的组件，请使用 `exclude` 选项（默认情况下，以 `_` 开头的文件、测试文件 (`.test.js`) 和 `__tests__` 目录内的文件不会被转换成页面）。
+
+:::
+
+#### 重复路由
+
+你可能会不小心创建映射到同一路由的多个页面。 发生这种情况时，Docusaurus 会在运行 `yarn start` 或 `yarn build` 时提醒你存在重复路由，但此时网站仍然能构建成功。 你只能访问最后创建的页面，而其他的冲突页面会被覆盖。 要解决此问题，你需要编辑或移除重复的路由。
+
 ### React.js
 
-Create a file at `src/pages/my-react-page.js`:
 
-src/pages/my-react-page.js
 
-```jsx
+```jsx title="src/pages/my-react-page.js"
 import React from 'react';
 import Layout from '@theme/Layout';
 
@@ -867,7 +1412,14 @@ export default function MyReactPage() {
 }
 ```
 
-A new page is now available at http://localhost:3000/my-react-page.
+页面显示在 `http://localhost:3000/my-react-page`。
+
+:::tip
+
++ 每个页面均没有样式。 如果你想要显示导航栏、页脚等，需要从 `@theme/Layout` 中导入 `Layout` 组件，然后把你的内容用这个组件包裹。
++ 也可以创建扩展名为 `.tsx` 的 TypeScript 组件 (`helloReact.tsx`)，同样`.jsx`也可以。
+
+:::
 
 ### MD
 
@@ -875,11 +1427,14 @@ A new page is now available at http://localhost:3000/my-react-page.
 
 :::tip
 
-在`.md`文件中插入react组件会自动按照`MDX`解析
++ 在`.md`文件中插入react组件会自动按照`MDX`解析
++ Markdown 不如 React 页面灵活，因为它总是会用主题布局。
 
 :::
 
 ### MDX
+
+在 Markdown 页面中发挥 React 的全部功能，所以 [MDX](https://mdxjs.com/) 文档。
 
 和`.md`文件一样都会默认解析为文档的布局。
 
@@ -905,6 +1460,8 @@ export const Highlight = ({ children, color }) => (
 
 I can write **Markdown** alongside my _JSX_!
 ```
+
+
 
 ## 博客blog
 
