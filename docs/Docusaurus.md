@@ -357,6 +357,521 @@ module.exports = {
 >
 >**Flow**可以帮助你在JavaScript代码中添加类型注释，以便在编译时检查代码中的类型错误。Flow可以和Babel一起使用，通过`@babel/preset-flow`插件来去除类型注释，生成纯净的JavaScript代码。
 
+### Navbar导航栏
+
+接受的字段：
+
+| 参数           | 类型                 | 默认值         | 描述                                    |
+| -------------- | -------------------- | -------------- | --------------------------------------- |
+| `title`        | `string`             | `undefined`    | 导航栏标题。                            |
+| `logo`         | *See below*          | `undefined`    | 图标对象的自定义。                      |
+| `items`        | `NavbarItem[]`       | `[]`           | 导航栏项目列表。 见下文的说明。         |
+| `hideOnScroll` | `boolean`            | `false`        | 当用户向下滚动时，导航栏是否隐藏。      |
+| `style`        | `'primary' | 'dark'` | 与色彩模式一致 | 设置导航栏样式，忽略暗黑/浅色色彩模式。 |
+
+#### 导航栏图标
+
+图标可以放在[静态文件夹](https://docusaurus.io/zh-CN/docs/static-assets)中。图标链接的 URL 会被默认设置为网站的 base URL。 尽管你可以为图标指定自己的 URL，但如果链接是外部的，它会打开一个新标签页。 此外，你还可以覆盖图标链接的 target 属性值，如果你把文档网站托管在主网站的一个子目录中，这个配置会很有用。这种情况下，你可能不需要在链接到主网站的时候打开新标签页。
+
+为了改善暗黑模式支持，你也可以为暗黑模式设置一个不同的图标。
+
+接受的字段：
+
+| 参数        | 类型              | 默认值                                                       | 描述                                                         |
+| ----------- | ----------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `alt`       | `string`          | `undefined`                                                  | 图片的 alt 属性。                                            |
+| `src`       | `string`          | **Required**                                                 | 图片的 URL。 Base URL 会被默认添加。                         |
+| `srcDark`   | `string`          | `logo.src`                                                   | 暗黑模式下使用的替代图像 URL。                               |
+| `href`      | `string`          | `siteConfig.baseUrl`                                         | 点击图标时跳转到的链接。                                     |
+| `width`     | `string | number` | `undefined`                                                  | Specifies the `width` attribute.                             |
+| `height`    | `string | number` | `undefined`                                                  | Specifies the `height` attribute.                            |
+| `target`    | `string`          | Calculated based on `href` (external links will open in a new tab, all others in the current one). | The `target` attribute of the link; controls whether the link is opened in a new tab, the current one, or otherwise. |
+| `className` | `string`          | `undefined`                                                  | 图片的 CSS 类名。                                            |
+| `style`     | `object`          | `undefined`                                                  | 内联 CSS 样式对象。 React/JSX 风格，所有属性都是驼峰格式 (camelCase)。 |
+
+示例配置：
+
+docusaurus.config.js
+
+```js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      title: '网站标题',
+      logo: {
+        alt: 'Site Logo',
+        src: 'img/logo.svg',
+        srcDark: 'img/logo_dark.svg',
+        href: 'https://docusaurus.io/',
+        target: '_self',
+        width: 32,
+        height: 32,
+        className: 'custom-navbar-logo-class',
+        style: {border: 'solid red'},
+      },
+    },
+  },
+};
+```
+
+
+
+#### 导航栏项目
+
+你可以通过向导航栏 `themeConfig.navbar.items` 添加项目。
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'introduction',
+          label: '文档',
+        },
+        {to: 'blog', label: '博客', position: 'left'},
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
+        {
+          href: 'https://github.com/facebook/docusaurus',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub 仓库',
+        },
+      ],
+    },
+  },
+};
+```
+
+根据 `type` 字段，导航栏项目的行为可能不同。 下面的部分会为你介绍所有的导航栏项目类型。
+
+##### 导航栏链接
+
+导航栏项目默认是一个普通链接（内部或外部均可）。
+
+React Router 会自动给链接应用活跃样式，但在边缘情况下，你可以使用 `activeBasePath`。 对于链接应该在几个不同路径上激活的情况（比如你在同一个侧边栏下有多个文件夹）， 你可以使用 `activeBaseRegex`。 `activeBaseRegex` 是一个比 `activeBasePath` 更灵活的替代选项，并且优先于后者——Docusaurus 会把它作为正则表达式解析，并与当前的 URL 匹配。
+
+外部链接会自动获得 `target="_blank" rel="noopener noreferrer"` 属性。
+
+接受的字段：
+
+| 参数                   | 类型               | 默认值        | 描述                                                         |
+| ---------------------- | ------------------ | ------------- | ------------------------------------------------------------ |
+| `type`                 | `'default'`        | 可选          | 把这个项目的类型设置为链接。                                 |
+| `label`                | `string`           | **必填**      | 项目显示的名称。                                             |
+| `html`                 | `string`           | 可选          | 和 `label` 一样，但渲染纯 HTML 而不是文字内容。              |
+| `to`                   | `string`           | **必填**      | 客户端路由，用于站内导航。 会自动在开头添加 base URL。       |
+| `href`                 | `string`           | **必填**      | 整页导航，用于站外跳转。 **只能使用 `to` 或 `href` 中的一个。** |
+| `prependBaseUrlToHref` | `boolean`          | `false`       | 在 `href` 前添加 base URL。                                  |
+| `position`             | `'left' | 'right'` | `'left'`      | 项目应该出现在导航栏的哪一侧。                               |
+| `activeBasePath`       | `string`           | `to` / `href` | 在以此路径开始的所有路由上应用活跃类样式。 通常没有必要设置。 |
+| `activeBaseRegex`      | `string`           | `undefined`   | 如果有需要，可以替代 `activeBasePath`。                      |
+| `className`            | `string`           | `''`          | 自定义 CSS 类（用于任何项目的样式）。                        |
+
+
+
+:::tip
+
++ `label`和`html`不能同时存在，`to`和`href`也不能同时存在，
+
++ 除了上面的字段外，你可以指定其他任何 HTML 链接[`<link>`](https://www.w3schools.com/tags/tag_link.asp)接受的属性。
+
+:::
+
+示例配置：
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          to: 'docs/introduction',
+          // Only one of "to" or "href" should be used
+          // href: 'https://www.facebook.com',
+          label: 'Introduction',
+          // Only one of "label" or "html" should be used
+          // html: '<b>Introduction</b>'
+          position: 'left',
+          activeBaseRegex: 'docs/(next|v8)',
+          target: '_blank',
+        },
+      ],
+    },
+  },
+};
+```
+
+##### 导航栏下拉菜单
+
+`dropdown` 类型的导航栏项有一个额外的 `items` 字段，一组内部的导航栏项目。
+
+下拉菜单的内部项目只支持以下**「类链接」的项目类型**：
+
+- [导航栏链接](https://docusaurus.io/zh-CN/docs/next/api/themes/configuration#navbar-link)
+- [导航栏文档链接](https://docusaurus.io/zh-CN/docs/next/api/themes/configuration#navbar-doc-link)
+- [导航栏文档版本](https://docusaurus.io/zh-CN/docs/next/api/themes/configuration#navbar-docs-version)
+- [导航栏文档侧边栏链接](https://docusaurus.io/zh-CN/docs/next/api/themes/configuration#navbar-doc-sidebar)
+- [导航栏自定义 HTML 项目](https://docusaurus.io/zh-CN/docs/next/api/themes/configuration#navbar-with-custom-html)
+
+请注意下拉菜单的主项也是一个可点击的链接，所以它可以接受[普通导航栏链接](https://docusaurus.io/zh-CN/docs/next/api/themes/configuration#navbar-link)的任何属性。
+
+接受的字段：
+
+| 参数       | 类型               | 默认值   | 描述                             |
+| ---------- | ------------------ | -------- | -------------------------------- |
+| `type`     | `'dropdown'`       | 可选     | 把这个项目的类型设置为下拉菜单。 |
+| `label`    | `string`           | **必填** | 项目显示的名称。                 |
+| `items`    | `LinkLikeItem[]`   | **必填** | 下拉菜单中包含的项目。           |
+| `position` | `'left' | 'right'` | `'left'` | 项目应该出现在导航栏的哪一侧。   |
+
+:::tip
+
+还是可以使用`html`字段
+
+:::
+
+示例配置：
+
+docusaurus.config.js
+
+```js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'dropdown',
+          label: '社区',
+          position: 'left',
+          items: [
+            {
+              label: 'Facebook',
+              href: 'https://www.facebook.com',
+            },
+            {
+              type: 'doc',
+              label: '社交',
+              docId: 'social',
+            },
+            // ... more items
+          ],
+        },
+      ],
+    },
+  },
+};
+```
+
+##### 导航栏文档链接
+
+如果你想要链接到某篇指定文档，这个特别的导航栏项目类型会渲染一个链接，指向带有给定的 `docId` 的文档。 只要你在浏览同一侧边栏的文档，它就会获得 `navbar__link--active` 类名。
+
+接受的字段：
+
+| 参数           | 类型               | 默认值      | 描述                             |
+| -------------- | ------------------ | ----------- | -------------------------------- |
+| `type`         | `'doc'`            | **必填**    | 把这个项目的类型设置为文档链接。 |
+| `docId`        | `string`           | **必填**    | 这个项目链接到的文档的 ID。      |
+| `label`        | `string`           | `docId`     | 项目显示的名称。                 |
+| `position`     | `'left' | 'right'` | `'left'`    | 项目应该出现在导航栏的哪一侧。   |
+| `docsPluginId` | `string`           | `'default'` | 这篇文档所属的文档插件的 ID。    |
+
+示例配置：
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'introduction',
+          label: '文档',
+        },
+      ],
+    },
+  },
+};
+```
+
+##### 导航栏文档侧边栏链接
+
+你可以将一个导航栏项目链接到某个给定侧边栏的第一个文档链接（可能是文档或者生成类别索引），而不需要硬编码一个文档 ID。
+
+接受的字段：
+
+| 参数           | 类型               | 默认值                     | 描述                               |
+| -------------- | ------------------ | -------------------------- | ---------------------------------- |
+| `type`         | `'docSidebar'`     | **必填**                   | 把这个项目的类型设置为侧边栏链接。 |
+| `sidebarId`    | `string`           | **必填**                   | 这个项目链接到的侧边栏的 ID。      |
+| `label`        | `string`           | 第一个文档链接的侧边栏标签 | 项目显示的名称。                   |
+| `position`     | `'left' | 'right'` | `'left'`                   | 项目应该出现在导航栏的哪一侧。     |
+| `docsPluginId` | `string`           | `'default'`                | 这个侧边栏所属的文档插件的 ID。    |
+
+:::tip
+
+如果你的侧边栏经常更新而且顺序不稳定，请使用这个导航栏项目类型。
+
+:::
+
+示例配置：
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docSidebar',
+          position: 'left',
+          sidebarId: 'api',
+          label: 'API',
+        },
+      ],
+    },
+  },
+};
+```
+
+```js title=sidebars.js
+module.exports = {
+  tutorial: [
+    {
+      type: 'autogenerated',
+      dirName: 'guides',
+    },
+  ],
+  api: [
+    'cli', // 导航栏项会链接到这篇文档
+    'docusaurus-core',
+    {
+      type: 'autogenerated',
+      dirName: 'api',
+    },
+  ],
+};
+```
+
+
+
+##### 导航栏文档版本下拉菜单
+
+如果你使用文档版本化，这个特别的导航栏项目类型会渲染一个下拉菜单，包含你的网站的所有可用版本。
+
+用户可以从一个版本切换到另一个版本。 而仍然保持在同一篇文档上（只要文档 ID 在版本之间保持不变）。
+
+接受的字段：
+
+| 参数                          | 类型                    | 默认值      | 描述                                     |
+| ----------------------------- | ----------------------- | ----------- | ---------------------------------------- |
+| `type`                        | `'docsVersionDropdown'` | **必填**    | 把这个项目的类型设置为文档版本下拉菜单。 |
+| `position`                    | `'left' | 'right'`      | `'left'`    | 项目应该出现在导航栏的哪一侧。           |
+| `dropdownItemsBefore`         | `LinkLikeItem[]`        | `[]`        | 在下拉菜单开头添加额外的项目。           |
+| `dropdownItemsAfter`          | `LinkLikeItem[]`        | `[]`        | 在下拉菜单结尾添加额外的项目。           |
+| `docsPluginId`                | `string`                | `'default'` | 这个版本下拉菜单所属的文档插件的 ID。    |
+| `dropdownActiveClassDisabled` | `boolean`               | `false`     | 不要在浏览文档时添加链接活跃类名。       |
+
+示例配置：
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          position: 'left',
+          dropdownItemsAfter: [{to: '/versions', label: '所有版本'}],
+          dropdownActiveClassDisabled: true,
+        },
+      ],
+    },
+  },
+};
+```
+
+
+
+##### 导航栏文档版本
+
+如果你使用文档版本化，这个特别的的导航栏项目类型会链接到你的文档的活跃版本（正浏览的版本；取决于当前的 URL）。如果没有版本处于活跃状态，则链接到最新版本。
+
+接受的字段：
+
+| 参数           | 类型               | 默认值                | 描述                                  |
+| -------------- | ------------------ | --------------------- | ------------------------------------- |
+| `type`         | `'docsVersion'`    | **必填**              | 把这个项目的类型设置为文档版本链接。  |
+| `label`        | `string`           | 活跃/最新版本的标签。 | 项目显示的名称。                      |
+| `to`           | `string`           | 活跃/最新版本。       | 项目指向的内部链接。                  |
+| `position`     | `'left' | 'right'` | `'left'`              | 项目应该出现在导航栏的哪一侧。        |
+| `docsPluginId` | `string`           | `'default'`           | 这个版本下拉菜单所属的文档插件的 ID。 |
+
+示例配置：
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersion',
+          position: 'left',
+          to: '/path',
+          label: '标签',
+        },
+      ],
+    },
+  },
+};
+```
+
+
+
+##### 导航栏语言下拉菜单
+
+如果您使用[i18n](https://docusaurus.io/zh-CN/docs/next/i18n/introduction)功能，这种特殊的导航栏项目类型将呈现一个下拉列表，其中包含您网站的所有可用区域设置。
+
+用户能够从一种语言切换到另一种语言，同时保持在同一个页面上。
+
+接受的字段：
+
+| 参数                  | 类型               | 默认值   | 描述                                 |
+| --------------------- | ------------------ | -------- | ------------------------------------ |
+| `type`                | `'localeDropdown'` | **必填** | 把这个项目的类型设置为语言下拉菜单。 |
+| `position`            | `'left' | 'right'` | `'left'` | 项目应该出现在导航栏的哪一侧。       |
+| `dropdownItemsBefore` | `LinkLikeItem[]`   | `[]`     | 在下拉菜单开头添加额外的项目。       |
+| `dropdownItemsAfter`  | `LinkLikeItem[]`   | `[]`     | 在下拉菜单结尾添加额外的项目。       |
+
+示例配置：
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'localeDropdown',
+          position: 'left',
+          dropdownItemsAfter: [
+            {
+              to: 'https://my-site.com/help-us-translate',
+              label: '帮助我们翻译',
+            },
+          ],
+        },
+      ],
+    },
+  },
+};
+```
+
+
+
+##### 导航栏搜索框
+
+如果您使用[搜索](https://docusaurus.io/zh-CN/docs/next/search)，搜索栏将是导航栏中最右边的元素。
+
+然而，通过这个特别的导航栏项目类型，你可以更改默认位置。
+
+| 参数        | 类型               | 默认值   | 描述                           |
+| ----------- | ------------------ | -------- | ------------------------------ |
+| `type`      | `'search'`         | **必填** | 把这个项目的类型设置为搜索框。 |
+| `position`  | `'left' | 'right'` | `'left'` | 项目应该出现在导航栏的哪一侧。 |
+| `className` | `string`           | /        | 项目的自定义 CSS 类名。        |
+
+docusaurus.config.js
+
+```js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'search',
+          position: 'right',
+        },
+      ],
+    },
+  },
+};
+```
+
+
+
+##### 导航栏自定义 HTML 项目
+
+你也可以用这个导航栏项目类型在导航栏中渲染自己的 HTML 标记。
+
+| 参数        | 类型               | 默认值   | 描述                               |
+| ----------- | ------------------ | -------- | ---------------------------------- |
+| `type`      | `'html'`           | **必填** | 把这个项目的类型设置为 HTML 元素。 |
+| `position`  | `'left' | 'right'` | `'left'` | 项目应该出现在导航栏的哪一侧。     |
+| `className` | `string`           | `''`     | 项目的自定义 CSS 类名。            |
+| `value`     | `string`           | `''`     | 在这个项目中渲染的自定义 HTML。    |
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'html',
+          position: 'right',
+          value: '<button>提交反馈</button>',
+        },
+      ],
+    },
+  },
+};
+```
+
+
+
+#### 自动隐藏顶部导航栏
+
+你可以启用这个很酷的界面功能，它会在用户开始向下滚动页面时，自动隐藏导航栏，当用户向上滚动时再显示它。
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      hideOnScroll: true,
+    },
+  },
+};
+```
+
+
+
+#### 导航栏样式
+
+你可以把导航栏样式设置为静态，而不禁用主题切换功能。 无论用户选择哪个主题，所选的样式都会被应用。
+
+目前有两种样式选项：`dark` 和 `primary`（基于 `--ifm-color-main` 的颜色）。 你可以在 [Infima 文档](https://infima.dev/docs/components/navbar/)中看到样式的预览。
+
+docusaurus.config.js
+
+```js
+module.exports = {
+  themeConfig: {
+    navbar: {
+      style: 'primary',
+    },
+  },
+};
+```
+
 ## 文档docs
 
 文档功能允许用户以层级格式组织编排 Markdown 文件

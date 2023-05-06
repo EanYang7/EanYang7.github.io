@@ -87,23 +87,95 @@ const config = {
       // Replace with your project's social card,在社交媒体上显示的预览图
       image: "img/social-card.jpg",
       navbar: {
+        hideOnScroll: true,
         title: "Ean的小屋",
         logo: {
           alt: "网站头像",
           src: "img/avatar.jpg",
+          srcDark: "img/avatar_0.jpg",
+          width: 40,
+          style: { boxShadow: "5px 5px 7px #888" },
         },
         items: [
+          // {
+          //   type: "search",
+          //   position: "left",
+          // },
           {
             type: "docSidebar",
             sidebarId: "tutorialSidebar",
             position: "right",
-            label: "文档",
+            // label: "文档",
+            html: `<html>
+            <style>
+            span:hover {
+              transform: scale(1.5);
+              color: lightgreen;
+            }
+            }
+          </style>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+              <span class="badge badge--primary">文档 <i class="fa fa-file-text" style="font-size: 150%;"></i></span>
+            </html>`,
           },
-          { to: "/blog", label: "博客", position: "right" },
+          {
+            to: "/projects",
+            // label: "项目",
+            position: "right",
+            html: `<html>
+            <style>
+            span:hover {
+              transform: scale(1.5);
+              color: lightgreen;
+            }
+            }
+          </style>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+              <span class="badge badge--primary">项目 <i class="fa fa-tasks" style="font-size: 150%;"></i></span>
+            </html>`,
+          },
+          {
+            type: "dropdown",
+            to: "/others",
+            // label: "其他",
+            position: "right",
+            items: [
+              {
+                label: "看见统计",
+                href: "https://seeing-theory.brown.edu/cn.html#firstPage",
+              },
+              {
+                label: "React",
+                to: "/docs/react",
+              },
+            ],
+            html: `<html>
+            <style>
+            span:hover {
+              transform: scale(1.5);
+              color: lightgreen;
+            }
+            }
+          </style>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+              <span class="badge badge--primary">其它 <i class="fa fa-ellipsis-v" style="font-size: 150%;"></i></span>
+            </html>`,
+          },
           {
             href: "https://github.com/EanYang7/EanYang7.github.io",
-            label: "GitHub",
+            // label: "GitHub",
             position: "right",
+            html: `<html>
+            <style>
+            span:hover {
+              transform: scale(1.5);
+              color: lightgreen;
+            }
+            }
+          </style>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+              <span class="badge badge--primary">GitHub <i class="fa fa-github" style="font-size: 150%;"></i></span>
+            </html>`,
           },
         ],
       },
