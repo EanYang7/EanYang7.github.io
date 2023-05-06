@@ -119,7 +119,7 @@ const config = {
             </html>`,
           },
           {
-            to: "/projects",
+            to: "/projects/",
             // label: "项目",
             position: "right",
             html: `<html>
@@ -133,20 +133,26 @@ const config = {
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
               <span class="badge badge--primary">项目 <i class="fa fa-tasks" style="font-size: 150%;"></i></span>
             </html>`,
+            items: [
+              {
+                label: "CS231n",
+                href: "https://eanyang7.github.io/cs231n/",
+              },
+              {
+                label: "React",
+                to: "/docs/react",
+              },
+            ],
           },
           {
             type: "dropdown",
-            to: "/others",
+            to: "/others/",
             // label: "其他",
             position: "right",
             items: [
               {
                 label: "看见统计",
                 href: "https://seeing-theory.brown.edu/cn.html#firstPage",
-              },
-              {
-                label: "React",
-                to: "/docs/react",
               },
             ],
             html: `<html>
@@ -197,6 +203,10 @@ const config = {
                 label: "MMDetection",
                 to: "/docs/mmdetection",
               },
+              {
+                label: "更多...",
+                to: "/docs/intro",
+              },
             ],
           },
           {
@@ -204,7 +214,7 @@ const config = {
             items: [
               {
                 label: "cs231n",
-                href: "https://github.com/EanYang7/cs231n",
+                href: "https://eanyang7.github.io/cs231n/",
               },
               {
                 label: "动手学深度学习",
@@ -213,15 +223,11 @@ const config = {
             ],
           },
           {
-            title: "更多",
+            title: "其他",
             items: [
               {
-                label: "博客",
-                to: "/blog",
-              },
-              {
-                label: "GitHub",
-                href: "https://github.com/EanYang7/EanYang7.github.io",
+                label: "看见统计",
+                href: "https://seeing-theory.brown.edu/cn.html#firstPage",
               },
             ],
           },

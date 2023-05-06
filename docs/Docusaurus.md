@@ -1938,6 +1938,12 @@ export default function MyReactPage() {
 
 ### MD
 
+> 自动解析文件夹下的`index.md`
+>
+> 比如`src/pages/test/index.md`
+>
+> http://localhost:3000/test/
+
 .md文件都会默认解析为文档的布局
 
 :::tip
