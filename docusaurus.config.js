@@ -164,7 +164,7 @@ const config = {
             }
           </style>
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-              <span class="badge badge--primary">其它 <i class="fa fa-ellipsis-v" style="font-size: 150%;"></i></span>
+              <span class="badge badge--primary">其它 <i class="fa fa-ellipsis-h" style="font-size: 150%;"></i></span>
             </html>`,
           },
           {
