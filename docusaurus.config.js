@@ -142,6 +142,11 @@ const config = {
                 label: "React",
                 to: "/docs/react",
               },
+              {
+                type: "docSidebar",
+                label: "数学建模算法与应用",
+                sidebarId: "数学建模算法与应用",
+              },
             ],
           },
           {
