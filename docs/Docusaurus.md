@@ -420,7 +420,8 @@ module.exports = {
 
 :::tip
 
-`docId`:默认是base—url后面的后缀（`docs/`后面的路径）
+* `docId`:默认是base—url后面的后缀（`docs/`后面的路径）
+* `sidebarId`:在`sidebar.js`中创建
 
 :::
 

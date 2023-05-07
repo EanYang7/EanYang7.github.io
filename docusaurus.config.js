@@ -147,6 +147,11 @@ const config = {
                 label: "数学建模算法与应用",
                 sidebarId: "数学建模算法与应用",
               },
+              {
+                type: "docSidebar",
+                label: "概率论与数理统计",
+                sidebarId: "概率论与数理统计",
+              },
             ],
           },
           {
