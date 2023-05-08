@@ -79,9 +79,9 @@ const config = {
         appId: "R1MCRZE8DZ",
 
         //  公开 API 密钥：提交它没有危险
-        apiKey: "a3a28fb2d8a04bf6415935100c4b4e33",
+        apiKey: "85af57e51ab61cbc1b23b8e76b0e7efa",
 
-        indexName: "YOUR_INDEX_NAME",
+        indexName: "eanyang7io",
 
         // 可选：见下文
         contextualSearch: true,
