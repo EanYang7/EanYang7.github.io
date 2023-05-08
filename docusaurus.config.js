@@ -76,10 +76,10 @@ const config = {
     ({
       algolia: {
         // Algolia 提供的应用 ID
-        appId: "4a5f583d-d848-4ca5-9cc7-da44c0393fa3",
+        appId: "R1MCRZE8DZ",
 
         //  公开 API 密钥：提交它没有危险
-        apiKey: "16c789120822486852553d3df633e2cf",
+        apiKey: "a3a28fb2d8a04bf6415935100c4b4e33",
 
         indexName: "YOUR_INDEX_NAME",
 
