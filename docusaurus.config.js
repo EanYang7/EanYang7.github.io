@@ -74,6 +74,35 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      algolia: {
+        // Algolia 提供的应用 ID
+        appId: "4a5f583d-d848-4ca5-9cc7-da44c0393fa3",
+
+        //  公开 API 密钥：提交它没有危险
+        apiKey: "16c789120822486852553d3df633e2cf",
+
+        indexName: "YOUR_INDEX_NAME",
+
+        // 可选：见下文
+        contextualSearch: true,
+
+        // 可选：声明哪些域名需要用 window.location 型的导航而不是 history.push。 适用于 Algolia 配置会爬取多个文档站点，而我们想要用 window.location.href 在它们之间跳转时。
+        externalUrlRegex: "external\\.com|domain\\.com",
+
+        // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
+        replaceSearchResultPathname: {
+          from: "/docs/", // or as RegExp: /\/docs\//
+          to: "/",
+        },
+
+        // Optional: Algolia search parameters
+        searchParameters: {},
+
+        // Optional: path for search page that enabled by default (`false` to disable it)
+        searchPagePath: "search",
+
+        //... other Algolia params
+      },
       // 设置目录显示的深度
       tableOfContents: {
         minHeadingLevel: 2,
