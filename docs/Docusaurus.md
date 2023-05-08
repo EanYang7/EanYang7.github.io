@@ -2412,6 +2412,169 @@ This is <Highlight color="#1877F2">Facebook blue</Highlight> !
 
 [搜索 | Docusaurus](https://docusaurus.io/zh-CN/docs/next/search#using-algolia-docsearch)
 
+1. 首先申请注册[DocSearch: Search made for documentation | DocSearch by Algolia](https://docsearch.algolia.com/apply/)
+2. 在`docusaurus.config.js`添加`algolia`字段
+
+```js title=docusaurus.config.js
+module.exports = {
+  // ...
+  themeConfig: {
+    // ...
+    algolia: {
+      // Algolia 提供的应用 ID
+      appId: 'YOUR_APP_ID',
+
+      //  公开 API 密钥：提交它没有危险
+      apiKey: 'YOUR_SEARCH_API_KEY',
+
+      indexName: 'YOUR_INDEX_NAME',
+
+      // 可选：见下文
+      contextualSearch: true,
+
+      // 可选：声明哪些域名需要用 window.location 型的导航而不是 history.push。 适用于 Algolia 配置会爬取多个文档站点，而我们想要用 window.location.href 在它们之间跳转时。
+      externalUrlRegex: 'external\\.com|domain\\.com',
+
+      // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
+      replaceSearchResultPathname: {
+        from: '/docs/', // or as RegExp: /\/docs\//
+        to: '/',
+      },
+
+      // Optional: Algolia search parameters
+      searchParameters: {},
+
+      // Optional: path for search page that enabled by default (`false` to disable it)
+      searchPagePath: 'search',
+
+      //... other Algolia params
+    },
+  },
+};
+```
+
+3. 然后去algolia官网找到上面必须的3个参数`appId`、`apiKey`和`indexName`
+
+4. [Settings | Crawler Admin Console (algolia.com)](https://crawler.algolia.com/admin/crawlers/bfcc2818-8519-42d4-8632-23bb17e965cf/settings)在settings中可以看到`appId`和`apiKey`和`indexName`（就是Project Name）
+
+   :::tip
+
+   可以直接使用这里的`apiKey`,但是不推荐，因为这里的`apiKey`权限很高，而且文档和是公开的，不安全。algolia有提供可以公开的，只供搜索的`apiKey`，在[API Keys | Algolia](https://www.algolia.com/account/api-keys/all?applicationId=R1MCRZE8DZ)可以看到**Search API Key**，作为`apiKey`
+
+   :::
+
+5. [Crawler Admin Console (algolia.com)](https://crawler.algolia.com/admin/crawlers/bfcc2818-8519-42d4-8632-23bb17e965cf/configuration/edit)，可以不用管，使用默认的，但推荐使用algolia专门为Docusaurus提供的模板。
+
+   + 填上appId和apiKey（这里的apiKey使用权限最高的那个）
+
+   + 替换其中的4个`YOUR_WEBSITE_URL`和2个`YOUR_INDEX_NAME`即可
+
+```js
+new Crawler({
+  appId: 'YOUR_APP_ID',
+  apiKey: 'YOUR_API_KEY',
+  rateLimit: 8,
+  maxDepth: 10,
+  startUrls: ['https://YOUR_WEBSITE_URL/'],
+  sitemaps: ['https://YOUR_WEBSITE_URL/sitemap.xml'],
+  ignoreCanonicalTo: true,
+  discoveryPatterns: ['https://YOUR_WEBSITE_URL/**'],
+  actions: [
+    {
+      indexName: 'YOUR_INDEX_NAME',
+      pathsToMatch: ['https://YOUR_WEBSITE_URL/**'],
+      recordExtractor: ({ $, helpers }) => {
+        // priority order: deepest active sub list header -> navbar active item -> 'Documentation'
+        const lvl0 =
+          $(
+            '.menu__link.menu__link--sublist.menu__link--active, .navbar__item.navbar__link--active'
+          )
+            .last()
+            .text() || 'Documentation';
+
+        return helpers.docsearch({
+          recordProps: {
+            lvl0: {
+              selectors: '',
+              defaultValue: lvl0,
+            },
+            lvl1: ['header h1', 'article h1'],
+            lvl2: 'article h2',
+            lvl3: 'article h3',
+            lvl4: 'article h4',
+            lvl5: 'article h5, article td:first-child',
+            lvl6: 'article h6',
+            content: 'article p, article li, article td:last-child',
+          },
+          indexHeadings: true,
+          aggregateContent: true,
+          recordVersion: 'v3',
+        });
+      },
+    },
+  ],
+  initialIndexSettings: {
+    YOUR_INDEX_NAME: {
+      attributesForFaceting: [
+        'type',
+        'lang',
+        'language',
+        'version',
+        'docusaurus_tag',
+      ],
+      attributesToRetrieve: [
+        'hierarchy',
+        'content',
+        'anchor',
+        'url',
+        'url_without_anchor',
+        'type',
+      ],
+      attributesToHighlight: ['hierarchy', 'content'],
+      attributesToSnippet: ['content:10'],
+      camelCaseAttributes: ['hierarchy', 'content'],
+      searchableAttributes: [
+        'unordered(hierarchy.lvl0)',
+        'unordered(hierarchy.lvl1)',
+        'unordered(hierarchy.lvl2)',
+        'unordered(hierarchy.lvl3)',
+        'unordered(hierarchy.lvl4)',
+        'unordered(hierarchy.lvl5)',
+        'unordered(hierarchy.lvl6)',
+        'content',
+      ],
+      distinct: true,
+      attributeForDistinct: 'url',
+      customRanking: [
+        'desc(weight.pageRank)',
+        'desc(weight.level)',
+        'asc(weight.position)',
+      ],
+      ranking: [
+        'words',
+        'filters',
+        'typo',
+        'attribute',
+        'proximity',
+        'exact',
+        'custom',
+      ],
+      highlightPreTag: '<span class="algolia-docsearch-suggestion--highlight">',
+      highlightPostTag: '</span>',
+      minWordSizefor1Typo: 3,
+      minWordSizefor2Typos: 7,
+      allowTyposOnNumericTokens: false,
+      minProximity: 1,
+      ignorePlurals: true,
+      advancedSyntax: true,
+      attributeCriteriaComputedByMinProximity: true,
+      removeWordsIfNoResults: 'allOptional',
+      separatorsToIndex: '_',
+    },
+  },
+});
+```
+
 ## 疑问
 
 ### `docusaurus.config.js`中的type注释
