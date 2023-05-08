@@ -314,6 +314,18 @@ COCO数据集中的80个物体类别有id从1到90，但其中有10个id没有�
 
 在整个API中，"ann"表示注释，"cat"表示类别，"img"表示图像。
 
+### pycocoDemo.py
+
+#### 绘制mask
+
+<iframe src="/html/pycocoDemo_drawMask.html" width="800" height="600"></iframe>
+
+---
+
+#### 评估分割和检测结果
+
+<iframe src="/html/pycocoEvalDemo_segm_bbox.html" width="800" height="600"></iframe>
+
 ## panopticapi
 
 [panopticapi/evaluation.py at master · cocodataset/panopticapi · GitHub](https://github.com/cocodataset/panopticapi)

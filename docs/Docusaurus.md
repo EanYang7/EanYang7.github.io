@@ -2408,6 +2408,10 @@ This is <Highlight color="#1877F2">Facebook blue</Highlight> !
 
 <font color="red">字体颜色</font>
 
+## 搜索
+
+[搜索 | Docusaurus](https://docusaurus.io/zh-CN/docs/next/search#using-algolia-docsearch)
+
 ## 疑问
 
 ### `docusaurus.config.js`中的type注释
