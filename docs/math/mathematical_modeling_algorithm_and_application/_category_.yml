@@ -1,5 +1,6 @@
 label: "数学建模算法与应用"
 link: {
+        slug: "mathematical_modeling_algorithm_and_application",
         type: "generated-index",
         title: "目录",
         description: "每章及各小结",

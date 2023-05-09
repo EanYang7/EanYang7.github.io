@@ -1,5 +1,6 @@
 label: 数学
 link: {
+        slug: "math",
         type: "generated-index",
         title: "目录",
         description: "详细内容点击后查看",
