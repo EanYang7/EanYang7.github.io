@@ -2528,6 +2528,14 @@ Docusaurus 搭建new Crawler({
 
 [Search API Parameters Reference | Algolia](https://www.algolia.com/doc/api-reference/search-api-parameters/)
 
+---
+
+### 问题
+
+可以索引整个docusaurus根文件夹下的文档。主要是靠algolia的Crawler爬取`/sitemap.xml`上内容。
+
+但是却不能搜索超链接的内容，看看有没有解决方法（考虑把超链接加入到sitemap.xml里）
+
 ## 疑问
 
 ### `docusaurus.config.js`中的type注释
