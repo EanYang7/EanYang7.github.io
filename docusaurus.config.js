@@ -58,6 +58,12 @@ const config = {
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
+        sitemap: {
+          changefreq: "weekly",
+          priority: 0.5,
+          ignorePatterns: ["/tags/**"],
+          filename: "sitemap.xml",
+        },
       }),
     ],
   ],
@@ -96,10 +102,10 @@ const config = {
         // },
 
         // Optional: Algolia search parameters
-        searchParameters: {},
+        // searchParameters: {},
 
         // Optional: path for search page that enabled by default (`false` to disable it)
-        searchPagePath: "search",
+        // searchPagePath: "search",
 
         //... other Algolia params
       },
