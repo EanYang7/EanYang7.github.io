@@ -180,12 +180,12 @@ const config = {
               {
                 type: "docSidebar",
                 label: "数学建模算法与应用",
-                sidebarId: "数学建模算法与应用",
+                sidebarId: "mathematical_modeling_algorithm_and_application",
               },
               {
                 type: "docSidebar",
                 label: "概率论与数理统计",
-                sidebarId: "概率论与数理统计",
+                sidebarId: "probability_and_statistics",
               },
             ],
           },

@@ -2530,6 +2530,12 @@ Docusaurus 搭建new Crawler({
 
 ---
 
+:::danger 注意
+
+文件夹名一定要是中文的，不然生成的`sitemap.xm`l中的路径就是乱码，algolia就会搜索不到
+
+:::
+
 ### 问题
 
 可以索引整个docusaurus根文件夹下的文档。主要是靠algolia的Crawler爬取`/sitemap.xml`上内容。
