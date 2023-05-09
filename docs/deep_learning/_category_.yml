@@ -1,0 +1,6 @@
+label: 深度学习
+link: {
+        type: "generated-index",
+        title: "目录",
+        description: "详细内容点击后查看",
+      }
