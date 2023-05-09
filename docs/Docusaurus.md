@@ -2556,3 +2556,7 @@ Docusaurus 搭建new Crawler({
 这是两个用JSDoc语法写的类型注释，表示这个对象的类型是Docusaurus配置对象。
 
 type注释允许类型检查和ide补全
+
+### 中文路径
+
+文件夹和文档绝对不能出现中文，否则build生成的`sitemap.xml`会出现乱码导致algolia搜索不到。但是UI界面需要中文，所有就需要在文件夹的`_category_.yml`中使用label设置中文名，但此时路由路径就会变为中文，所以还需要设置link字段的`slug`来设置为英文路由

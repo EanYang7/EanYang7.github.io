@@ -20,6 +20,7 @@ const sidebars = {
       type: "category",
       label: "数学建模算法与应用",
       link: {
+        slug: "/math/mathematical_modeling_algorithm_and_application",
         type: "generated-index",
         title: "目录",
         description: "每章及各小结",
@@ -37,6 +38,7 @@ const sidebars = {
       type: "category",
       label: "概率论与数理统计",
       link: {
+        slug: "/math/probability_and_statistics",
         type: "generated-index",
         title: "目录",
         description: "每章及各小结",
