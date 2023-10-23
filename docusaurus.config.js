@@ -8,12 +8,12 @@ const katex = require("rehype-katex");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Ean's Home",
-  tagline: "I'm Ean,你好啊！",
+  title: "Ean's 小屋",
+  tagline: "我是 Ean,你好啊！",
   favicon: "img/logo.jpg",
 
   // Set the production url of your site here
-  url: "https://doc-ten-lilac.vercel.app",
+  url: "https://eanyang7.com/",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/doc",
@@ -21,7 +21,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "eanyang7", // Usually your GitHub org/user name.
-  projectName: "eanyang7.github.io", // Usually your repo name.
+  projectName: "doc", // Usually your repo name.
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -123,7 +123,7 @@ const config = {
       image: "img/social-card.jpg",
       navbar: {
         hideOnScroll: true,
-        title: "Ean的小屋",
+        title: "Ean的文档库",
         logo: {
           alt: "网站头像",
           src: "img/avatar.jpg",
@@ -213,7 +213,7 @@ const config = {
             </html>`,
           },
           {
-            href: "https://github.com/EanYang7/EanYang7.github.io",
+            href: "https://github.com/EanYang7/doc",
             // label: "GitHub",
             position: "right",
             html: `<html>
