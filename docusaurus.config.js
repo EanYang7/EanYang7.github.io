@@ -14,9 +14,11 @@ const config = {
 
   // Set the production url of your site here
   url: "https://doc-ten-lilac.vercel.app",
+  // url: "https://doc-ten-lilac.vercel.app",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/doc",
+  baseUrl: "/",
+  // baseUrl: "/doc",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
